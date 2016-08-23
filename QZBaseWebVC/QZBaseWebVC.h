@@ -9,12 +9,16 @@
 #import <UIKit/UIKit.h>
 #import "NJKWebViewProgressView.h"
 #import "NJKWebViewProgress.h"
+#import <WebKit/WebKit.h>
+
 /**
  *  系统大于ios8 使用wkwebView加载页面
  *             否则使用uiwebView加载页面
  */
 
 @interface QZBaseWebVC : UIViewController
+
+@property (nonatomic,weak) id webView;
 
 @property (nonatomic,copy) NSString *url;
 
@@ -26,5 +30,5 @@
 
 - (void)loadRequest:(NSString *)url;
 
-
+- (void)scrollToTop;
 @end

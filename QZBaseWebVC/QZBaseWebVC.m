@@ -7,9 +7,6 @@
 //
 
 #import "QZBaseWebVC.h"
-#import <UIKit/UIKit.h>
-#import <WebKit/WebKit.h>
-
 #define progressBarHeight  2.f
 #define SCREEN_WIDTH    [UIScreen mainScreen].bounds.size.width
 #define SCREEN_HEIGHT   [UIScreen mainScreen].bounds.size.height
@@ -30,9 +27,11 @@
     
     if (Version >= 8.0) {
         [self createWKWeb];
+        self.webView = _wkWebView;
         NSLog(@"use WKWebView");
     }else{
         [self createUIWeb];
+        self.webView = _uiWebView;
         NSLog(@"use UIWebView");
     }
     [self addProgressView];
@@ -61,16 +60,17 @@
     }
     
     _wkWebView = [[WKWebView alloc] initWithFrame:self.view.frame configuration:configuration];
-    _wkWebView.navigationDelegate=self;
-    _wkWebView.allowsBackForwardNavigationGestures=YES;
+    _wkWebView.navigationDelegate = self;
+    _wkWebView.allowsBackForwardNavigationGestures = YES;
+    _wkWebView.scrollView.delegate = self;
     [_wkWebView addObserver:self forKeyPath:@"estimatedProgress" options:NSKeyValueObservingOptionNew context:nil];
     [self.view addSubview:_wkWebView];
-    
 }
 
 - (void)createUIWeb
 {
     _uiWebView = [[UIWebView alloc] initWithFrame:self.view.frame];
+    _uiWebView.scrollView.delegate = self;
     [self.view addSubview:_uiWebView];
     _uiWebView.delegate = self.progressProxy;
     self.progressProxy.webViewProxyDelegate = self;
@@ -104,6 +104,17 @@
     self.url = url;
     [self loadUrl];
 }
+
+- (void)scrollToTop
+{
+    UIScrollView *scrollView;
+    if (_wkWebView) {
+        scrollView = (UIScrollView *)[[_wkWebView subviews] objectAtIndex:0];
+    }else{
+        scrollView = (UIScrollView *)[[_uiWebView subviews] objectAtIndex:0];
+    }
+    [scrollView setContentOffset:CGPointMake(0, -64) animated:YES];
+}
 #pragma mark - 监听mk progress
 -(void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSString *,id> *)change context:(void *)context
 {
@@ -127,7 +138,7 @@
 }
 - (void)webView:(WKWebView *)webView didFinishNavigation:(null_unspecified WKNavigation *)navigatio
 {
-    
+    self.title = _wkWebView.title;
 }
 - (void)webView:(WKWebView *)webView didFailNavigation:(null_unspecified WKNavigation *)navigation withError:(NSError *)error
 {
@@ -169,14 +180,15 @@
 {
     if (_wkWebView) {
         [_wkWebView removeObserver:self forKeyPath:@"estimatedProgress"];
-        [_wkWebView removeFromSuperview];
-        _wkWebView = nil;
-        [_wkWebView stopLoading];
+        _wkWebView.scrollView.delegate = nil;
     }else{
-        [_uiWebView removeFromSuperview];
-        _uiWebView = nil;
+        [[NSURLCache sharedURLCache] removeAllCachedResponses];
+        [_uiWebView loadHTMLString:@"" baseURL:nil];
         [_uiWebView stopLoading];
-
+        _uiWebView.delegate=nil;
+        _uiWebView.scrollView.delegate = nil;
+        [_uiWebView removeFromSuperview];
+        _uiWebView=nil;
     }
 }
 @end

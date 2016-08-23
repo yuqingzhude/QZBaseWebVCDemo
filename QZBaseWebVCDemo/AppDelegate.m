@@ -19,7 +19,6 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     ViewController *vc =[[ViewController alloc] init];
     UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:vc];
-    vc.title = @"点击去浏览器";
     self.window.rootViewController = nav;
     [self.window makeKeyAndVisible];
     return YES;

@@ -19,14 +19,20 @@
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor whiteColor];
     
-    UIButton *btn = [[UIButton alloc] initWithFrame:self.view.frame];
+    UIButton *btn = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 200, 200)];
+    btn.center = self.view.center;
+    btn.clipsToBounds = YES;
+    btn.layer.cornerRadius = 100;
+    [btn setTitle:@"go" forState:UIControlStateNormal];
+    btn.titleLabel.font = [UIFont boldSystemFontOfSize:50];
+    btn.backgroundColor = [UIColor redColor];
     [self.view addSubview:btn];
     [btn addTarget:self action:@selector(go) forControlEvents:UIControlEventTouchUpInside];
 }
 
 - (void)go
 {
-    QZBaseWebVC *vc = [[QZBaseWebVC alloc] init];
+    WebViewVC *vc = [[WebViewVC alloc] init];
     vc.url = @"http://www.baidu.com";
     [self.navigationController pushViewController:vc animated:YES];
 }
