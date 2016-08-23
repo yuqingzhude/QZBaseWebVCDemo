@@ -36,7 +36,6 @@
     }
     [self addProgressView];
     [self loadUrl];
-    
 }
 
 #pragma mark - create WK OR UI web
@@ -103,6 +102,17 @@
 {
     self.url = url;
     [self loadUrl];
+}
+#pragma mark - js
+- (void)evaluateJavaScript:(NSString *)javaScript
+{
+    if (_wkWebView) {
+        [_wkWebView evaluateJavaScript:javaScript completionHandler:^(id result, NSError * _Nullable error) {
+            NSLog(@"%@",error);
+        }];
+    }else{
+        [_uiWebView stringByEvaluatingJavaScriptFromString:javaScript];
+    }
 }
 #pragma mark - 返回顶端
 - (void)scrollToTop

@@ -17,7 +17,7 @@
  */
 
 @interface QZBaseWebVC : UIViewController
-
+/** 子类类型转换*/
 @property (nonatomic,weak) id webView;
 
 @property (nonatomic,copy) NSString *url;
@@ -31,4 +31,7 @@
 - (void)loadRequest:(NSString *)url;
 
 - (void)scrollToTop;
+
+- (void)evaluateJavaScript:(NSString *)javaScript;
+
 @end
