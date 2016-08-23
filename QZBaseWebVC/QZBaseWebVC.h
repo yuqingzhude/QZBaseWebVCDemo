@@ -11,10 +11,6 @@
 #import "NJKWebViewProgress.h"
 #import <WebKit/WebKit.h>
 
-typedef void (^StartLoadBlock)(id webView);
-typedef void (^FinishLoadBlock)(id webView);
-typedef void (^FailLoadBlock)(id webView);
-
 /**
  *  系统大于ios8 使用wkwebView加载页面
  *             否则使用uiwebView加载页面
