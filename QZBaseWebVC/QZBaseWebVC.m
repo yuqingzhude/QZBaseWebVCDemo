@@ -104,7 +104,7 @@
     self.url = url;
     [self loadUrl];
 }
-
+#pragma mark - 返回顶端
 - (void)scrollToTop
 {
     UIScrollView *scrollView;
@@ -132,17 +132,36 @@
 }
 
 #pragma mark - WKNavigationDelegate
+- (void)webView:(WKWebView *)webView didStartProvisionalNavigation:(null_unspecified WKNavigation *)navigation
+{
+    
+}
 - (void)webView:(WKWebView *)webView didCommitNavigation:(null_unspecified WKNavigation *)navigation
 {
     
 }
 - (void)webView:(WKWebView *)webView didFinishNavigation:(null_unspecified WKNavigation *)navigatio
 {
-    self.title = _wkWebView.title;
+//    self.title = webView.title;
 }
 - (void)webView:(WKWebView *)webView didFailNavigation:(null_unspecified WKNavigation *)navigation withError:(NSError *)error
 {
+    NSLog(@"%@",error);
+}
+#pragma mark - UIWebViewDelegate
+- (void)webViewDidStartLoad:(UIWebView *)webView
+{
     
+}
+- (void)webViewDidFinishLoad:(UIWebView *)webView
+{
+//    CGFloat height = [[webView stringByEvaluatingJavaScriptFromString:@"document.body.scrollHeight"] floatValue];
+//    ((UIScrollView *)[[webView subviews] firstObject]).contentSize=CGSizeMake(SCREEN_WIDTH, height);
+//    self.title=[webView stringByEvaluatingJavaScriptFromString:@"document.title"];
+}
+- (void)webView:(UIWebView *)webView didFailLoadWithError:(nullable NSError *)error
+{
+    NSLog(@"%@",error);
 }
 
 #pragma mark - lazyload
@@ -166,6 +185,7 @@
     return _progressProxy;
 }
 
+#pragma mark - otherMethod
 -(void)viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:animated];
