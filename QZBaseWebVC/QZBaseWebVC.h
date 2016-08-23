@@ -26,12 +26,18 @@
 
 @property (nonatomic,strong) NJKWebViewProgress *progressProxy;
 
+@property (nonatomic,assign) double timeOut;
+
 - (void)hideProgressView;
 
 - (void)loadRequest:(NSString *)url;
 
 - (void)scrollToTop;
-
+/**
+ *  方法内部判断是什么view
+ *  在外部直接传入js即可
+ */
 - (void)evaluateJavaScript:(NSString *)javaScript;
+
 
 @end

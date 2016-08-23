@@ -24,6 +24,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor whiteColor];
+    self.timeOut = 30;
     
     if (Version >= 8.0) {
         [self createWKWeb];
@@ -88,12 +89,13 @@
 #pragma mark - 加载url
 - (void)loadUrl
 {
-    NSURLRequest *req = [[NSURLRequest alloc] initWithURL:[NSURL URLWithString:self.url]];
+    NSMutableURLRequest *mRequest = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:self.url]];
+    mRequest.timeoutInterval = self.timeOut;
     NSLog(@"%@",self.url);
     if (_wkWebView) {
-        [_wkWebView loadRequest:req];
+        [_wkWebView loadRequest:mRequest];
     }else{
-        [_uiWebView loadRequest:req];
+        [_uiWebView loadRequest:mRequest];
     }
     
 }
