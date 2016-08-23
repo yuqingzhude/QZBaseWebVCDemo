@@ -146,34 +146,52 @@
 #pragma mark - WKNavigationDelegate
 - (void)webView:(WKWebView *)webView didStartProvisionalNavigation:(null_unspecified WKNavigation *)navigation
 {
-    
-}
-- (void)webView:(WKWebView *)webView didCommitNavigation:(null_unspecified WKNavigation *)navigation
-{
-    
+    if (self.startLoadBlock) {
+        self.startLoadBlock(webView);
+    }
 }
 - (void)webView:(WKWebView *)webView didFinishNavigation:(null_unspecified WKNavigation *)navigatio
 {
 //    self.title = webView.title;
+    if (self.finishLoadBlock) {
+        self.finishLoadBlock(webView);
+    }
 }
 - (void)webView:(WKWebView *)webView didFailNavigation:(null_unspecified WKNavigation *)navigation withError:(NSError *)error
 {
     NSLog(@"%@",error);
+    if (self.finishLoadBlock) {
+        self.failLoadBlock(webView);
+    }
+}
+
+- (void)webView:(WKWebView *)webView didCommitNavigation:(null_unspecified WKNavigation *)navigation
+{
+    
 }
 #pragma mark - UIWebViewDelegate
 - (void)webViewDidStartLoad:(UIWebView *)webView
 {
-    
+    if (self.startLoadBlock) {
+        self.startLoadBlock(webView);
+    }
 }
 - (void)webViewDidFinishLoad:(UIWebView *)webView
 {
 //    CGFloat height = [[webView stringByEvaluatingJavaScriptFromString:@"document.body.scrollHeight"] floatValue];
 //    ((UIScrollView *)[[webView subviews] firstObject]).contentSize=CGSizeMake(SCREEN_WIDTH, height);
 //    self.title=[webView stringByEvaluatingJavaScriptFromString:@"document.title"];
+    
+    if (self.finishLoadBlock) {
+        self.finishLoadBlock(webView);
+    }
 }
 - (void)webView:(UIWebView *)webView didFailLoadWithError:(nullable NSError *)error
 {
     NSLog(@"%@",error);
+    if (self.failLoadBlock) {
+        self.failLoadBlock(webView);
+    }
 }
 
 #pragma mark - lazyload

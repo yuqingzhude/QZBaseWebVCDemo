@@ -17,7 +17,18 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    [self makeSubview];
+    [self setStartLoadBlock:^(id webView) {
+        NSLog(@"block success");
+    }];
+    [self setFinishLoadBlock:^(id webView) {
+        NSLog(@"block finish");
+    }];
     
+}
+
+- (void)makeSubview
+{
     UIButton *btn1 = [[UIButton alloc] init];
     btn1.frame = CGRectMake(self.view.bounds.size.width - 80, self.view.bounds.size.height - 80, 50, 50);
     [btn1 setTitle:@"top" forState:UIControlStateNormal];
@@ -28,17 +39,9 @@
     btn1.backgroundColor = [UIColor redColor];
     [btn1 addTarget:self action:@selector(gotop) forControlEvents:UIControlEventTouchUpInside];
 }
-
 - (void)gotop
 {
     [self scrollToTop];
-}
-
-- (void)webView:(WKWebView *)webView didFinishNavigation:(null_unspecified WKNavigation *)navigatio
-{
-    WKWebView *wk = [[WKWebView alloc] init];
-    wk = self.webView;
-    self.title = wk.title;
 }
 
 - (void)didReceiveMemoryWarning {

@@ -11,6 +11,10 @@
 #import "NJKWebViewProgress.h"
 #import <WebKit/WebKit.h>
 
+typedef void (^StartLoadBlock)(id webView);
+typedef void (^FinishLoadBlock)(id webView);
+typedef void (^FailLoadBlock)(id webView);
+
 /**
  *  系统大于ios8 使用wkwebView加载页面
  *             否则使用uiwebView加载页面
@@ -27,6 +31,12 @@
 @property (nonatomic,strong) NJKWebViewProgress *progressProxy;
 
 @property (nonatomic,assign) double timeOut;
+/**
+ *  统一wk ui加载状态代理方法，二合一
+ */
+@property (nonatomic,copy) void(^startLoadBlock)(id webView);
+@property (nonatomic,copy) void(^finishLoadBlock)(id webView);
+@property (nonatomic,copy) void(^failLoadBlock)(id webView);
 
 - (void)hideProgressView;
 
