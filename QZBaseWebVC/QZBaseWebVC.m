@@ -209,16 +209,15 @@
 
 #pragma mark - 添加Bridge
 
-- (void)addBridgeWith:(WVJBHandler *)handler
+- (void)addBridge
 {
     if (!self.handler) {
         return;
     }
-    
     if (_wkWebView) {
-        [self.wkBridge registerHandler:@"testObjcCallback" handler:self.handler];
+        [self.wkBridge registerHandler:@"handler" handler:self.handler];
     }else{
-        [self.uiBridge registerHandler:@"" handler:self.handler];
+        [self.uiBridge registerHandler:@"handler" handler:self.handler];
     }
 }
 #pragma mark - lazyload

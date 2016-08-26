@@ -42,10 +42,10 @@
 
 - (void)addBridge
 {
-    [super addBridge];
-    if ([self isWKWebView]) {
+    self.handler = ^(id data, WVJBResponseCallback responseCallback){
         
-    }
+    };
+    [super addBridge];
 }
 - (void)gotop
 {
