@@ -7,9 +7,12 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <WebKit/WebKit.h>
 #import "NJKWebViewProgressView.h"
 #import "NJKWebViewProgress.h"
-#import <WebKit/WebKit.h>
+#import "WebViewJavascriptBridge.h"
+#import "WKWebViewJavascriptBridge.h"
+#import "WebViewJavascriptBridgeBase.h"
 
 /**
  *  系统大于ios8 使用wkwebView加载页面
@@ -22,11 +25,18 @@
 
 @property (nonatomic,copy) NSString *url;
 
+/** request.timeoutInterval*/
+@property (nonatomic,assign) double timeOut;
+
 @property (nonatomic,strong) NJKWebViewProgressView *progressView;
 
 @property (nonatomic,strong) NJKWebViewProgress *progressProxy;
 
-@property (nonatomic,assign) double timeOut;
+@property (nonatomic,strong) WebViewJavascriptBridge *uiBridge;
+
+@property (nonatomic,strong) WKWebViewJavascriptBridge *wkBridge;
+
+@property (nonatomic,strong) WVJBHandler handler;
 /**
  *  统一wk ui加载状态代理方法，二合一
  */
@@ -45,5 +55,8 @@
  */
 - (void)evaluateJavaScript:(NSString *)javaScript;
 
+- (void)addBridgeWith:(WVJBHandler *)handler;
 
+- (BOOL)isUIWebView;
+- (BOOL)isWKWebView;
 @end

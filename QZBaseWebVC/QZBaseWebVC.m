@@ -193,7 +193,34 @@
         self.failLoadBlock(webView);
     }
 }
+#pragma mark - 返回是什么类型的web
+- (BOOL)isWKWebView
+{
+    if (_wkWebView) {
+        return YES;
+    }
+    return NO;
+}
 
+- (BOOL)isUIWebView
+{
+    return ![self isWKWebView];
+}
+
+#pragma mark - 添加Bridge
+
+- (void)addBridgeWith:(WVJBHandler *)handler
+{
+    if (!self.handler) {
+        return;
+    }
+    
+    if (_wkWebView) {
+        [self.wkBridge registerHandler:@"testObjcCallback" handler:self.handler];
+    }else{
+        [self.uiBridge registerHandler:@"" handler:self.handler];
+    }
+}
 #pragma mark - lazyload
 - (NJKWebViewProgressView*)progressView
 {
@@ -215,6 +242,29 @@
     return _progressProxy;
 }
 
+- (WebViewJavascriptBridge *)uiBridge
+{
+    if (!_uiBridge) {
+        // 设置能够进行桥接
+        [WebViewJavascriptBridge enableLogging];
+#warning self.progressProxy
+        WebViewJavascriptBridge *uiBridge= [WebViewJavascriptBridge bridgeForWebView:_uiWebView];
+        [uiBridge setWebViewDelegate:self];
+        _uiBridge = uiBridge;
+    }
+    return _uiBridge;
+}
+
+- (WKWebViewJavascriptBridge *)wkBridge
+{
+    if (!_wkBridge) {
+        [WKWebViewJavascriptBridge enableLogging];
+        WKWebViewJavascriptBridge *wkBridge=[WKWebViewJavascriptBridge bridgeForWebView:_wkWebView];
+        [wkBridge setWebViewDelegate:self];
+        _wkBridge = wkBridge;
+    }
+    return _wkBridge;
+}
 #pragma mark - otherMethod
 -(void)viewWillDisappear:(BOOL)animated
 {

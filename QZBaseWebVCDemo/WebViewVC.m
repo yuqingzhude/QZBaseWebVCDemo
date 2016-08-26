@@ -39,6 +39,14 @@
     btn1.backgroundColor = [UIColor redColor];
     [btn1 addTarget:self action:@selector(gotop) forControlEvents:UIControlEventTouchUpInside];
 }
+
+- (void)addBridge
+{
+    [super addBridge];
+    if ([self isWKWebView]) {
+        
+    }
+}
 - (void)gotop
 {
     [self scrollToTop];
