@@ -25,6 +25,8 @@
         NSLog(@"block finish");
     }];
     
+    [self addBridge];
+    
 }
 
 - (void)makeSubview
@@ -45,6 +47,7 @@
     self.handler = ^(id data, WVJBResponseCallback responseCallback){
         
     };
+    
     [super addBridge];
 }
 - (void)gotop
