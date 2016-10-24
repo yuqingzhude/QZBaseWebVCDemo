@@ -204,7 +204,7 @@
         self.finishLoadBlock(webView);
     }
 }
-- (void)webView:(UIWebView *)webView didFailLoadWithError:(nullable NSError *)error
+- (void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error
 {
     NSLog(@"%@",error);
     if (self.failLoadBlock) {
