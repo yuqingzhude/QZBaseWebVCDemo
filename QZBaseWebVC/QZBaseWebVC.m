@@ -170,7 +170,6 @@
 }
 - (void)webView:(WKWebView *)webView didFinishNavigation:(null_unspecified WKNavigation *)navigatio
 {
-//    self.title = webView.title;
     if (self.finishLoadBlock) {
         self.finishLoadBlock(webView);
     }
