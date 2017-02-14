@@ -232,9 +232,12 @@
 
 - (void)addBridge
 {
+    // 子类重写
     if (!self.handler) {
         return;
     }
+    
+    // 一个block两个都可以使用，或者直接在handlerblock中实现
     if (_wkWebView) {
         [self.wkBridge registerHandler:@"handler" handler:self.handler];
     }else{
@@ -245,10 +248,9 @@
 - (NJKWebViewProgressView*)progressView
 {
     if (!_progressView) {
-        NJKWebViewProgressView *progressView=[[NJKWebViewProgressView alloc] init];
+        _progressView=[[NJKWebViewProgressView alloc] init];
         CGRect navigationBarBounds = self.navigationController.navigationBar.bounds;
-        progressView.frame = CGRectMake(0, 64, navigationBarBounds.size.width, progressBarHeight);
-        _progressView = progressView;
+        _progressView.frame = CGRectMake(0, 64, navigationBarBounds.size.width, progressBarHeight);
     }
     return _progressView;
 }
