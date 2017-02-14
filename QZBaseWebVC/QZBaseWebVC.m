@@ -35,7 +35,11 @@
         self.webView = _uiWebView;
         NSLog(@"use UIWebView");
     }
+    
     [self addProgressView];
+    
+    [self addBridge];
+    
     [self loadUrl];
 }
 
@@ -263,10 +267,8 @@
     if (!_uiBridge) {
         // 设置能够进行桥接
         [WebViewJavascriptBridge enableLogging];
-#warning self.progressProxy
-        WebViewJavascriptBridge *uiBridge= [WebViewJavascriptBridge bridgeForWebView:_uiWebView];
-        [uiBridge setWebViewDelegate:self];
-        _uiBridge = uiBridge;
+        _uiBridge = [WebViewJavascriptBridge bridgeForWebView:_uiWebView];
+        [_uiBridge setWebViewDelegate:self];
     }
     return _uiBridge;
 }
@@ -275,9 +277,8 @@
 {
     if (!_wkBridge) {
         [WKWebViewJavascriptBridge enableLogging];
-        WKWebViewJavascriptBridge *wkBridge=[WKWebViewJavascriptBridge bridgeForWebView:_wkWebView];
-        [wkBridge setWebViewDelegate:self];
-        _wkBridge = wkBridge;
+        _wkBridge=[WKWebViewJavascriptBridge bridgeForWebView:_wkWebView];
+        [_wkBridge setWebViewDelegate:self];
     }
     return _wkBridge;
 }
