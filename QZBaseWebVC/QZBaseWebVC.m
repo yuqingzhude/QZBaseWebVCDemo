@@ -38,9 +38,6 @@
     
     [self addProgressView];
     
-    [self addBridge];
-    
-    [self loadUrl];
 }
 
 #pragma mark - create WK OR UI web
@@ -181,7 +178,7 @@
 - (void)webView:(WKWebView *)webView didFailNavigation:(null_unspecified WKNavigation *)navigation withError:(NSError *)error
 {
     NSLog(@"%@",error);
-    if (self.finishLoadBlock) {
+    if (self.failLoadBlock) {
         self.failLoadBlock(webView);
     }
 }
@@ -232,17 +229,28 @@
 
 - (void)addBridge
 {
-    // 子类重写
-    if (!self.handler) {
-        return;
-    }
+//    if (_wkWebView) {
+//        [WKWebViewJavascriptBridge enableLogging];
+//        self.wkBridge  = [WKWebViewJavascriptBridge bridgeForWebView:_wkWebView];
+//        [self.wkBridge setWebViewDelegate:self];
+//        
+//        [self.wkBridge registerHandler:@"handler" handler:^(id data, WVJBResponseCallback responseCallback) {
+//            NSLog(@"data = %@",data);
+//        }];
+//        
+//        
+//    }else{
+//        
+//        [WebViewJavascriptBridge enableLogging];
+//        self.uiBridge  = [WebViewJavascriptBridge bridgeForWebView:_uiWebView];
+//        [self.uiBridge setWebViewDelegate:self];
+//        
+//        [self.uiBridge registerHandler:@"handler" handler:^(id data, WVJBResponseCallback responseCallback) {
+//            NSLog(@"data = %@",data);
+//        }];
+//        
+//    }
     
-    // 一个block两个都可以使用，或者直接在handlerblock中实现
-    if (_wkWebView) {
-        [self.wkBridge registerHandler:@"handler" handler:self.handler];
-    }else{
-        [self.uiBridge registerHandler:@"handler" handler:self.handler];
-    }
 }
 #pragma mark - lazyload
 - (NJKWebViewProgressView*)progressView

@@ -25,9 +25,11 @@
         NSLog(@"block finish");
     }];
     
-    [self addBridge];
+//    [self addBridge];
     
+    [self loadUrl];
 }
+
 
 - (void)makeSubview
 {
@@ -42,14 +44,7 @@
     [btn1 addTarget:self action:@selector(gotop) forControlEvents:UIControlEventTouchUpInside];
 }
 
-- (void)addBridge
-{
-    self.handler = ^(id data, WVJBResponseCallback responseCallback){
-        
-    };
-    
-    [super addBridge];
-}
+
 - (void)gotop
 {
     [self scrollToTop];

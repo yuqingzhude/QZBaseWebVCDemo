@@ -55,8 +55,13 @@
  */
 - (void)evaluateJavaScript:(NSString *)javaScript;
 
-- (void)addBridge;
+//- (void)addBridge;
 
 - (BOOL)isUIWebView;
 - (BOOL)isWKWebView;
+
+- (void)loadUrl;
+
+- (void)addBridge;
+
 @end
